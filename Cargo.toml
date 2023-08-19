@@ -1,0 +1,20 @@
+[package]
+name = "libmhash"
+description = "A file hashing library that can do multiple hashes for multile files at the same time."
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+documentation = "https://docs.rs/libmhash"
+repository = "https://github.com/maboroshinokiseki/libmhash"
+readme = "./README.md"
+keywords = ["hash"]
+
+[dependencies]
+ambassador = "0.3.5"
+crossbeam-channel = "0.5.8"
+parking_lot = "0.12.1"
+thiserror = "1.0.47"
+threadpool = "1.8.1"
+
+[dev-dependencies]
+hex = "0.4.3"
