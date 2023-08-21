@@ -48,7 +48,7 @@ where
     }
 
     pub fn push_last_data(mut self, buffer: &[u8]) {
-        if buffer.len() < self.block_size {
+        if buffer.len() > self.block_size {
             self.operation_sender
                 .send(Operation::Error(HasherError {
                     identifier: self.id.clone(),

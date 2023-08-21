@@ -114,7 +114,10 @@ pub trait HasherServerTrait {
     type Tag: Clone + Eq + Hash + Send;
 
     fn data_sender(&self) -> DataSender<Self::Tag>;
+
     fn compute(&mut self);
+
+    fn block_size(&self) -> usize;
 }
 
 impl<Tag, P, R, E> HasherServerTrait for HasherServer<Tag, P, R, E>
@@ -219,6 +222,10 @@ where
                 }
             }
         }
+    }
+
+    fn block_size(&self) -> usize {
+        self.block_size
     }
 }
 

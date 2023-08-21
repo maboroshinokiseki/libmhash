@@ -40,7 +40,7 @@ impl Hasher for MyHasher {
 fn main() {
     // create a hasher server
     let mut server = Builder::new()
-        .on_result(Some(|r: &HasherResult<'_, Arc<&str>>| println!("{:#?}", r)))
+        .on_result(Some(|r: &HasherResult<Arc<&str>>| println!("{:#?}", r)))
         .build()
         .unwrap();
 

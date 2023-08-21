@@ -1,6 +1,9 @@
 # Description
 A file hashing library that can do multiple hashes for multile files at the same time.
 
+# Supported hashes
+CRC32, CRC32C, MD2, MD4, MD5, SHA1, SHA2, SHA3
+
 # Example
 ```rust
 use libmhash::prelude::*;
@@ -8,7 +11,7 @@ use libmhash::prelude::*;
 fn main() {
     // create a hasher server
     let mut server = Builder::new()
-        .on_result(Some(|r: &HasherResult<'_, HasherTag>| println!("{:#?}", r)))
+        .on_result(Some(|r: &HasherResult<HasherTag>| println!("{:#?}", r)))
         .build()
         .unwrap();
 

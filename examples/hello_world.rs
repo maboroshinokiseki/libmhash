@@ -3,7 +3,7 @@ use libmhash::prelude::*;
 fn main() {
     // create a hasher server
     let mut server = Builder::new()
-        .on_result(Some(|r: &HasherResult<'_, HasherTag>| println!("{:#?}", r)))
+        .on_result(Some(|r: &HasherResult<HasherTag>| println!("{:#?}", r)))
         .build()
         .unwrap();
 
