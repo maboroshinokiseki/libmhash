@@ -3,7 +3,7 @@ use std::{collections::HashMap, hash::Hash, sync::Arc};
 use crate::{
     hasher_server::{operation::Operation, *},
     simple_semaphore::SimpleSemaphore,
-    tag_thread_pool::TagThreadPoll,
+    tag_thread_pool::TagThreadPool,
     Error,
 };
 
@@ -32,7 +32,7 @@ where
         &self,
         hasher_map: &mut HashMap<Identifier, Vec<HasherWrapper<Tag>>>,
         data_wrapper: Arc<DataWrapper>,
-        hasher_threads: &TagThreadPoll<IdentifierHasherTag<Tag>>,
+        hasher_threads: &TagThreadPool<IdentifierHasherTag<Tag>>,
     ) {
         let hashers = hasher_map
             .get(&data_wrapper.identifier)
@@ -147,7 +147,7 @@ where
 
         let operation_sender = self.operation_channel.0.clone();
 
-        let hasher_threads = TagThreadPoll::<IdentifierHasherTag<Tag>>::new();
+        let hasher_threads = TagThreadPool::<IdentifierHasherTag<Tag>>::new();
 
         loop {
             if end_of_list && hasher_map.is_empty() {

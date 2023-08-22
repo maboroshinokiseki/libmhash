@@ -30,14 +30,14 @@ where
     }
 }
 
-pub struct TagThreadPoll<K>
+pub struct TagThreadPool<K>
 where
     K: Eq + Hash + Send + Clone + 'static,
 {
     dispatcher: crossbeam_channel::Sender<Operation<K>>,
 }
 
-impl<K> TagThreadPoll<K>
+impl<K> TagThreadPool<K>
 where
     K: Eq + Hash + Send + Clone + 'static,
 {
@@ -84,7 +84,7 @@ where
             }
         });
 
-        TagThreadPoll { dispatcher }
+        TagThreadPool { dispatcher }
     }
 
     pub fn dispatch<F>(&self, tag: K, job: F)
