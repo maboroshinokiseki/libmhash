@@ -1,3 +1,6 @@
+const SHA1_BLOCK_SIZE: usize = 64;
+const SHA1_DIGEST_SIZE: usize = 20;
+
 cfg_if::cfg_if! {
     if #[cfg(feature = "alter-impl")] {
         mod alter;
@@ -5,12 +8,8 @@ cfg_if::cfg_if! {
     } else {
         mod mine;
         pub use self::mine::SHA1;
-
     }
 }
-
-const SHA1_BLOCK_SIZE: usize = 64;
-const SHA1_DIGEST_SIZE: usize = 20;
 
 #[cfg(test)]
 mod tests {

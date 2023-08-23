@@ -1,8 +1,7 @@
 use std::mem::size_of;
 
-use crate::{paranoid_hash::Hasher, Error, Result};
-
 use super::{SHA1_BLOCK_SIZE, SHA1_DIGEST_SIZE};
+use crate::{paranoid_hash::Hasher, Error, Result};
 
 #[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct SHA1 {
