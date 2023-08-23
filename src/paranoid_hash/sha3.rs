@@ -20,7 +20,7 @@ macro_rules! impl_common {
     };
 }
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA3_224(
     SHA3Core<{ SHA3_224_CAPACITY / 2 / 8 }, { (STATE_SIZE - SHA3_224_CAPACITY) / 8 }>,
@@ -28,7 +28,7 @@ pub struct SHA3_224(
 impl_common!(SHA3_224,
     SHA3Core<{ SHA3_224_CAPACITY / 2 / 8 }, { (STATE_SIZE - SHA3_224_CAPACITY) / 8 }>);
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA3_256(
     SHA3Core<{ SHA3_256_CAPACITY / 2 / 8 }, { (STATE_SIZE - SHA3_256_CAPACITY) / 8 }>,
@@ -36,7 +36,7 @@ pub struct SHA3_256(
 impl_common!(SHA3_256,
     SHA3Core<{ SHA3_256_CAPACITY / 2 / 8 }, { (STATE_SIZE - SHA3_256_CAPACITY) / 8 }>);
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA3_384(
     SHA3Core<{ SHA3_384_CAPACITY / 2 / 8 }, { (STATE_SIZE - SHA3_384_CAPACITY) / 8 }>,
@@ -44,7 +44,7 @@ pub struct SHA3_384(
 impl_common!(SHA3_384,
     SHA3Core<{ SHA3_384_CAPACITY / 2 / 8 }, { (STATE_SIZE - SHA3_384_CAPACITY) / 8 }>);
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA3_512(
     SHA3Core<{ SHA3_512_CAPACITY / 2 / 8 }, { (STATE_SIZE - SHA3_512_CAPACITY) / 8 }>,
@@ -178,6 +178,14 @@ impl<const DIGEST_SIZE: usize, const RATE_IN_U8: usize> Hasher
 
     fn digest_size(&self) -> usize {
         Self::DIGEST_SIZE
+    }
+}
+
+impl<const DIGEST_SIZE: usize, const RATE_IN_U8: usize> Default
+    for SHA3Core<DIGEST_SIZE, RATE_IN_U8>
+{
+    fn default() -> Self {
+        Self::new()
     }
 }
 

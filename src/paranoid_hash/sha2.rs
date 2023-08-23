@@ -58,22 +58,22 @@ macro_rules! update_block {
     };
 }
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA2_224(SHA2_256Core<224>);
 impl_common!(SHA2_224, SHA2_256Core<224>);
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA2_256(SHA2_256Core<256>);
 impl_common!(SHA2_256, SHA2_256Core<256>);
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA2_384(SHA2_512Core<384>);
 impl_common!(SHA2_384, SHA2_512Core<384>);
 
-#[derive(Delegate, Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Delegate, Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 #[delegate(Hasher)]
 pub struct SHA2_512(SHA2_512Core<512>);
 impl_common!(SHA2_512, SHA2_512Core<512>);
@@ -95,7 +95,7 @@ trait SHA2Core {
     fn update_block(&mut self, block: &[Self::Word; BLOCK_SIZE_IN_WORD]);
 }
 
-#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 struct SHA2_256Core<const LENGTH: usize> {
     state: [u32; STATE_SIZE_IN_WORD],
     count: u64,
@@ -304,6 +304,12 @@ impl<const LENGTH: usize> Hasher for SHA2_512Core<LENGTH> {
     #[inline]
     fn digest_size(&self) -> usize {
         Self::DIGEST_SIZE
+    }
+}
+
+impl<const LENGTH: usize> Default for SHA2_512Core<LENGTH> {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

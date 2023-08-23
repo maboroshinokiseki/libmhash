@@ -2,14 +2,14 @@ use std::mem::size_of;
 
 use crate::{paranoid_hash::Hasher, Error, Result};
 
-#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CRC32 {
     state: u32,
     digest: [u8; 4],
     is_done: bool,
 }
 
-#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CRC32C {
     state: u32,
     digest: [u8; 4],

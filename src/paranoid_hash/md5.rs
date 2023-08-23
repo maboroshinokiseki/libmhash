@@ -2,7 +2,7 @@ use std::mem::size_of;
 
 use crate::{paranoid_hash::Hasher, Error, Result};
 
-#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct MD5 {
     state: [u32; 4],
     count: u64,

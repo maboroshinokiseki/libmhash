@@ -4,7 +4,7 @@ use crate::{paranoid_hash::Hasher, Error, Result};
 
 use super::{SHA1_BLOCK_SIZE, SHA1_DIGEST_SIZE};
 
-#[derive(Clone, Copy, Debug, Hash, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct SHA1 {
     state: [u32; Self::U32_DIGEST_SIZE],
     count: u64,
