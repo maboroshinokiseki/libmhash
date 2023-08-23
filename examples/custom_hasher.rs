@@ -44,7 +44,7 @@ fn main() {
         .build()
         .unwrap();
 
-    // use sender to send file or raw data
+    // use sender to send files or raw data
     let sender = server.data_sender();
 
     // you can also send files without spawning a new thread

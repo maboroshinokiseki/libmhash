@@ -15,7 +15,7 @@ fn main() {
         .build()
         .unwrap();
 
-    // use sender to send file or raw data
+    // use sender to send files or raw data
     let sender = server.data_sender();
 
     // you can also send files without spawning a new thread
@@ -32,7 +32,7 @@ fn main() {
                     libmhash::paranoid_hash::SHA1::new(),
                 ));
 
-                // // you can also create HasherWrapper from HasherTags
+                // you can also create HasherWrapper from HasherTags
                 hashers.push(HasherWrapper::create_from_tag(HasherTag::MD5));
 
                 // send files
