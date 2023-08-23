@@ -11,10 +11,17 @@ keywords = ["hash"]
 
 [dependencies]
 ambassador = "0.3.5"
+cfg-if = "1.0.0"
 crossbeam-channel = "0.5.8"
 parking_lot = "0.12.1"
 thiserror = "1.0.47"
 threadpool = "1.8.1"
+sha1 = { version = "0.10.5", optional = true }
 
 [dev-dependencies]
 hex = "0.4.3"
+
+[features]
+alter-impl = [
+    "dep:sha1",
+] # Use alternative implementations of some hash algorithms, they are usually faster since they are usually implemented in assembly

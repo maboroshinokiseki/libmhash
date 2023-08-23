@@ -10,6 +10,7 @@ mod sha2;
 mod sha3;
 mod tester;
 
+pub use self::sha1::SHA1;
 pub use crc32::CRC32;
 pub use crc32::CRC32C;
 pub use hasher::Hasher;
@@ -17,7 +18,6 @@ pub use hasher::HasherTag;
 pub use md2::MD2;
 pub use md4::MD4;
 pub use md5::MD5;
-pub use sha1::SHA1;
 pub use sha2::SHA2_224;
 pub use sha2::SHA2_256;
 pub use sha2::SHA2_384;
