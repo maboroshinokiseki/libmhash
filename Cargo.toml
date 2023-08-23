@@ -16,6 +16,8 @@ crossbeam-channel = "0.5.8"
 parking_lot = "0.12.1"
 thiserror = "1.0.47"
 threadpool = "1.8.1"
+crc32c = { version = "0.6.4", optional = true }
+crc32fast = { version = "1.3.2", optional = true }
 sha1 = { version = "0.10.5", optional = true }
 sha2 = { version = "0.10.7", optional = true }
 
@@ -24,6 +26,8 @@ hex = "0.4.3"
 
 [features]
 alter-impl = [
+    "dep:crc32c",
+    "dep:crc32fast",
     "dep:sha1",
     "dep:sha2",
 ] # Use alternative implementations of some hash algorithms, they are usually faster since they are usually implemented in assembly

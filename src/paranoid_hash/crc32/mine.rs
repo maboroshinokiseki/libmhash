@@ -5,15 +5,15 @@ use crate::{paranoid_hash::Hasher, Error, Result};
 #[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CRC32 {
     state: u32,
-    digest: [u8; 4],
     is_done: bool,
+    digest: [u8; 4],
 }
 
 #[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
 pub struct CRC32C {
     state: u32,
-    digest: [u8; 4],
     is_done: bool,
+    digest: [u8; 4],
 }
 
 impl CRC32 {
@@ -205,30 +205,3 @@ const CRC32C_TABLE: [u32; 256] = [
     0xf36e6f75, 0x0105ec76, 0x12551f82, 0xe03e9c81, 0x34f4f86a, 0xc69f7b69, 0xd5cf889d, 0x27a40b9e,
     0x79b737ba, 0x8bdcb4b9, 0x988c474d, 0x6ae7c44e, 0xbe2da0a5, 0x4c4623a6, 0x5f16d052, 0xad7d5351,
 ];
-
-#[cfg(test)]
-mod tests {
-    use crate::paranoid_hash::tester::{HasherTestWrapper, TestData};
-
-    use super::CRC32;
-    use super::CRC32C;
-
-    const CRC32_TESTS: &[TestData] = &[TestData {
-        data: "123456789".as_bytes(),
-        repeat: 1,
-        result: "cbf43926",
-    }];
-
-    const CRC32C_TESTS: &[TestData] = &[TestData {
-        data: "123456789".as_bytes(),
-        repeat: 1,
-        result: "e3069283",
-    }];
-
-    #[test]
-    fn tests() {
-        HasherTestWrapper::new(CRC32::new()).run_tests(CRC32_TESTS);
-
-        HasherTestWrapper::new(CRC32C::new()).run_tests(CRC32C_TESTS);
-    }
-}
