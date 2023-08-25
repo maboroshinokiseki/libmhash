@@ -1,7 +1,7 @@
 [package]
 name = "libmhash"
 description = "A file hashing library that can do multiple hashes for multile files at the same time."
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 documentation = "https://docs.rs/libmhash"
