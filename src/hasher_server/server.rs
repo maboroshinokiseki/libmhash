@@ -34,9 +34,9 @@ where
         data_wrapper: Arc<DataWrapper>,
         hasher_threads: &TagThreadPool<IdentifierHasherTag<Tag>>,
     ) {
-        let hashers = hasher_map
-            .get(&data_wrapper.identifier)
-            .expect("Hasher should be in map.");
+        let Some(hashers) = hasher_map.get(&data_wrapper.identifier) else {
+                return;
+        };
 
         for hasher_wrapper in hashers {
             let hasher_wrapper = hasher_wrapper.shallow_clone();
@@ -101,8 +101,12 @@ where
         identifier: &Identifier,
         tag: &Tag,
     ) {
-        let hashers = hasher_map.get_mut(identifier).unwrap();
-        let index = hashers.iter().position(|h| h.tag == *tag).unwrap();
+        let Some(hashers) = hasher_map.get_mut(identifier) else {
+            return;
+        };
+        let Some(index) = hashers.iter().position(|h| h.tag == *tag) else {
+            return;
+        };
         hashers.swap_remove(index);
         if hashers.is_empty() {
             hasher_map.remove(identifier);
