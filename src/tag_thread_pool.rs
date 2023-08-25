@@ -1,4 +1,4 @@
-use std::{collections::HashMap, hash::Hash, thread, time::Duration};
+use std::{collections::HashMap, hash::Hash, thread};
 
 enum Operation<K>
 where
@@ -6,6 +6,7 @@ where
 {
     Add(Job<K>),
     Done(K),
+    DoneBy(Box<dyn Fn(&K) -> bool + Send + 'static>),
 }
 
 enum ExecutorOperation {
@@ -44,7 +45,7 @@ where
     pub fn new() -> Self {
         let (dispatcher, receiver) = crossbeam_channel::unbounded::<Operation<K>>();
         let thread_pool = threadpool::Builder::new().build();
-        let tx = dispatcher.clone();
+        let dispatcher_for_finish = dispatcher.clone();
         thread::spawn(move || {
             let mut job_senders = HashMap::new();
 
@@ -61,25 +62,28 @@ where
                             let (sender, receiver) =
                                 crossbeam_channel::unbounded::<ExecutorOperation>();
 
-                            let tag = job.tag.clone();
-                            let tx = tx.clone();
                             thread_pool.execute(move || loop {
-                                match receiver.recv_timeout(Duration::from_millis(128)) {
-                                    Ok(operation) => match operation {
+                                if let Ok(operation) = receiver.recv() {
+                                    match operation {
                                         ExecutorOperation::Job(job) => (job)(),
                                         ExecutorOperation::Done => break,
-                                    },
-                                    Err(_) => tx.send(Operation::Done(tag.clone())).unwrap(),
+                                    }
                                 }
                             });
 
                             sender
                         })
                         .send(ExecutorOperation::Job(job.job)),
-                    Operation::Done(tag) => job_senders
-                        .remove(&tag)
-                        .unwrap()
-                        .send(ExecutorOperation::Done),
+                    Operation::Done(tag) => match job_senders.remove(&tag) {
+                        Some(sender) => sender.send(ExecutorOperation::Done),
+                        None => Ok(()),
+                    },
+                    Operation::DoneBy(filter) => {
+                        for key in job_senders.keys().filter(|k| (filter)(k)) {
+                            let _ = dispatcher_for_finish.send(Operation::Done(key.clone()));
+                        }
+                        Ok(())
+                    }
                 };
             }
         });
@@ -93,6 +97,19 @@ where
     {
         self.dispatcher
             .send(Operation::Add(Job::new(tag, Box::new(job))))
+            .unwrap();
+    }
+
+    pub fn finish(&self, tag: K) {
+        self.dispatcher.send(Operation::Done(tag)).unwrap();
+    }
+
+    pub fn finish_by<F>(&self, filter: F)
+    where
+        F: Fn(&K) -> bool + Send + 'static,
+    {
+        self.dispatcher
+            .send(Operation::DoneBy(Box::new(filter)))
             .unwrap();
     }
 }

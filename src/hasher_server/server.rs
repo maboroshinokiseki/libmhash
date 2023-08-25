@@ -205,6 +205,12 @@ where
                         &result.identifier,
                         &result.hasher_wrapper.tag,
                     );
+
+                    let tag = IdentifierHasherTag {
+                        identifier: result.identifier,
+                        tag: result.hasher_wrapper.tag,
+                    };
+                    hasher_threads.finish(tag);
                 }
                 Operation::Error(error) => {
                     if let Some(callback) = self.error_callback.as_mut() {
@@ -214,9 +220,17 @@ where
                     match error.tag {
                         Some(tag) => {
                             Self::delete_hasher(&mut hasher_map, &error.identifier, &tag);
+
+                            let tag = IdentifierHasherTag {
+                                identifier: error.identifier.clone(),
+                                tag,
+                            };
+                            hasher_threads.finish(tag);
                         }
                         None => {
                             hasher_map.remove(&error.identifier);
+
+                            hasher_threads.finish_by(move |k| k.identifier == error.identifier);
                         }
                     }
                 }
